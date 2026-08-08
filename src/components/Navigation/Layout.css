@@ -99,14 +99,15 @@
   color: var(--text-secondary);
   border: none;
   margin-left: 0.5em;
-  margin-bottom: 0.2em;
+  margin-bottom: 0.3em;
   text-transform: uppercase;
+  font-weight: normal;
+  border-bottom: 1px solid #222;
+  padding-bottom: 2px;
 }
 
 .portlet-body {
-  background-color: var(--bg-box);
-  border: 1px solid var(--border-color);
-  padding: 0.5em;
+  padding: 0 0.5em;
 }
 
 .portlet-body ul {
@@ -114,7 +115,12 @@
 }
 
 .portlet-body li {
-  margin-bottom: 0.2em;
+  margin-bottom: 0.3em;
+  font-size: 0.9em;
+}
+
+.portlet-body a {
+  color: #8ab4f8; /* default link */
 }
 
 .sidebar-search {
@@ -138,11 +144,12 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 1.5em 1.5em 0 1.5em;
+  padding: 0 1.5em 0 1.5em;
   background-color: var(--bg-content);
-  border-left: 1px solid var(--border-color);
-  border-top: 1px solid var(--border-color);
-  min-height: calc(100vh - 50px); /* rough estimate of top bar height */
+  border: 1px solid var(--border-color);
+  border-right: none;
+  border-bottom: none;
+  min-height: calc(100vh - 50px);
 }
 
 .content-inner {

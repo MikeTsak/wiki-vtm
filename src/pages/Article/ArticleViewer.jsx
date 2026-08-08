@@ -6,6 +6,7 @@ import rehypeRaw from 'rehype-raw';
 import api from '../../utils/api';
 import { useAuth } from '../../context/AuthContext';
 import ErrorModal from '../../components/Common/ErrorModal';
+import SEO from '../../components/Common/SEO';
 import './ArticleViewer.css';
 
 const ArticleViewer = ({ defaultSlug }) => {
@@ -32,13 +33,23 @@ const ArticleViewer = ({ defaultSlug }) => {
       setError(null);
       try {
         const res = await api.get(`/api/wiki/articles/${slug}`);
-        setArticle(res.data.article);
+        let content = res.data.article.content;
+        let infobox = null;
+        const ibxMatch = content.match(/\[INFOBOX\](.*?)\[\/INFOBOX\]/s);
+        if (ibxMatch) {
+          try {
+            infobox = JSON.parse(ibxMatch[1]);
+          } catch(e) {}
+          content = content.replace(/\[INFOBOX\](.*?)\[\/INFOBOX\]/s, '').trim();
+        }
+
+        setArticle({ ...res.data.article, content, infobox });
 
         // Extract headings for ToC
         const headings = [];
         const regex = /^(#{2,3})\s+(.+)$/gm;
         let match;
-        while ((match = regex.exec(res.data.article.content)) !== null) {
+        while ((match = regex.exec(content)) !== null) {
           const level = match[1].length;
           const textContent = match[2];
           const id = textContent.toLowerCase().replace(/[^\w]+/g, '-').replace(/(^-|-$)/g, '');
@@ -103,7 +114,7 @@ const ArticleViewer = ({ defaultSlug }) => {
       /\[spoiler\]([\s\S]*?)\[\/spoiler\]/gi,
       '<details class="custom-spoiler"><summary>Spoiler</summary><div class="spoiler-content">$1</div></details>'
     );
-    processed = processed.replace(/\[\[(.*?)\]\]/g, (match, p1) => {
+    processed = processed.replace(/(?:\\?\[){2}(.*?)(?:\\?\]){2}/g, (match, p1) => {
       const linkSlug = p1.trim().replace(/\s+/g, '-');
       return `<a href="/article/${linkSlug}">${p1}</a>`;
     });
@@ -114,18 +125,19 @@ const ArticleViewer = ({ defaultSlug }) => {
 
   return (
     <div className="viewer-container">
+      <SEO 
+        title={article ? article.title : slug} 
+        description={article ? article.content.replace(/[#*_~`\[\]()]/g, '').substring(0, 160) + '...' : ''}
+        article={true}
+      />
+
       <div className="article-header">
         <h1 id="firstHeading" className="firstHeading">
           {article ? article.title : slug}
           {article?.status === 'private' && (
-            <span className="private-badge" title="This article is visible to admins only">🔒 Admin Only</span>
+            <span className="private-badge" title="This article is visible to admins only"><i className="fa-solid fa-lock" style={{ marginRight: '5px' }}></i> Admin Only</span>
           )}
         </h1>
-        <div className="article-tools">
-          {article && <Link to={`/history/${slug}`}>History</Link>}
-          {(user && article) && <Link to={`/edit/${slug}`}>Edit</Link>}
-          {!article && user && <Link to={`/create?slug=${slug}`}>Create</Link>}
-        </div>
       </div>
 
       <ErrorModal
@@ -140,7 +152,7 @@ const ArticleViewer = ({ defaultSlug }) => {
       {error && !article && (
         <div className="article-not-found">
           {error.startsWith('ACCESS DENIED') ? (
-            <p><strong>🔒 {error}</strong></p>
+            <p><strong><i className="fa-solid fa-lock" style={{ marginRight: '5px' }}></i> {error}</strong></p>
           ) : (
             <>
               <p><strong>Erebus Wiki does not have an article with this exact name.</strong></p>
@@ -180,9 +192,9 @@ const ArticleViewer = ({ defaultSlug }) => {
                   className="admin-notes-toggle"
                   onClick={() => setNotesOpen(o => !o)}
                 >
-                  <span>🗒️ Admin Notes</span>
+                  <span><i className="fa-solid fa-clipboard" style={{ marginRight: '5px' }}></i> Admin Notes</span>
                   {adminNotes.length > 0 && <span className="admin-notes-count">{adminNotes.length}</span>}
-                  <span className="admin-notes-chevron">{notesOpen ? '▲' : '▼'}</span>
+                  <span className="admin-notes-chevron">{notesOpen ? <i className="fa-solid fa-chevron-up"></i> : <i className="fa-solid fa-chevron-down"></i>}</span>
                 </button>
 
                 {notesOpen && (
@@ -195,7 +207,7 @@ const ArticleViewer = ({ defaultSlug }) => {
                         <div className="admin-note-header">
                           <strong>{note.author_name}</strong>
                           <span>{fmtDate(note.created_at)}</span>
-                          <button className="admin-note-del" onClick={() => handleDeleteNote(note.id)}>✕</button>
+                          <button className="admin-note-del" onClick={() => handleDeleteNote(note.id)}><i className="fa-solid fa-xmark"></i></button>
                         </div>
                         <p className="admin-note-content">{note.content}</p>
                       </div>
@@ -218,18 +230,44 @@ const ArticleViewer = ({ defaultSlug }) => {
             )}
           </div>
 
-          {toc.length > 0 && (
+          {(toc.length > 0 || article.infobox) && (
             <div className="article-sidebar">
-              <div className="toc-container">
-                <div className="toc-title">Contents</div>
-                <ul className="toc-list">
-                  {toc.map((heading, i) => (
-                    <li key={i} className={`toc-item toc-level-${heading.level}`}>
-                      <a href={`#${heading.id}`}>{heading.text}</a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              {article.infobox && (
+                <aside className="infobox">
+                  <div className="infobox-title">{article.title}</div>
+                  {article.infobox.image && (
+                    <img src={article.infobox.image} className="infobox-image" alt={article.infobox.caption || article.title} />
+                  )}
+                  {article.infobox.caption && <div className="infobox-caption">{article.infobox.caption}</div>}
+                  {article.infobox.fields && article.infobox.fields.length > 0 && (
+                    <div className="infobox-content">
+                      <table>
+                        <tbody>
+                          {article.infobox.fields.map((f, i) => (
+                            <tr key={i}>
+                              <th>{f.key}</th>
+                              <td>{f.value}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </aside>
+              )}
+
+              {toc.length > 0 && (
+                <div className="toc-container">
+                  <div className="toc-title">Contents</div>
+                  <ul className="toc-list">
+                    {toc.map((heading, i) => (
+                      <li key={i} className={`toc-item toc-level-${heading.level}`}>
+                        <a href={`#${heading.id}`}>{heading.text}</a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           )}
         </div>

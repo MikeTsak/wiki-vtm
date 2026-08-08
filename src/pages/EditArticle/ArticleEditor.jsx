@@ -1,10 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { useParams, useNavigate, useLocation, useSearchParams } from 'react-router-dom';
+import { useParams, useNavigate, useLocation, useSearchParams, Link } from 'react-router-dom';
 import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import '@toast-ui/editor/dist/theme/toastui-editor-dark.css';
 import api from '../../utils/api';
 import { useAuth } from '../../context/AuthContext';
+import InfoboxEditor from '../../components/Wiki/InfoboxEditor';
+import SEO from '../../components/Common/SEO';
 import './ArticleEditor.css';
 
 const ArticleEditor = () => {
@@ -14,52 +16,16 @@ const ArticleEditor = () => {
   const [searchParams] = useSearchParams();
   const editorRef = useRef(null);
 
+  const [articleId, setArticleId] = useState(null);
+  const [infoboxData, setInfoboxData] = useState({ image: '', caption: '', fields: [] });
+
   const customToolbarItems = React.useMemo(() => {
-    const button = document.createElement('button');
-    button.className = 'toastui-editor-toolbar-icons';
-    button.style.backgroundImage = 'none';
-    button.style.margin = '0';
-    button.style.fontSize = '12px';
-    button.style.fontWeight = 'bold';
-    button.style.width = 'auto';
-    button.style.padding = '0 5px';
-    button.innerHTML = 'IBX';
-    button.title = 'Insert Infobox';
-    button.addEventListener('click', () => {
-      if (editorRef.current) {
-        const editorInstance = editorRef.current.getInstance();
-        const boilerplate = `
-<aside class="infobox">
-  <div class="infobox-title">Article Title</div>
-  <img src="https://via.placeholder.com/250" class="infobox-image" alt="Image description" />
-  <div class="infobox-caption">Optional caption</div>
-  <div class="infobox-content">
-    <table>
-      <tbody>
-        <tr><th>Category 1</th><td>Value 1</td></tr>
-        <tr><th>Category 2</th><td>Value 2</td></tr>
-      </tbody>
-    </table>
-  </div>
-</aside>
-`;
-        editorInstance.insertText(boilerplate);
-      }
-    });
-    
     return [
       ['heading', 'bold', 'italic', 'strike'],
       ['hr', 'quote'],
       ['ul', 'ol', 'task', 'indent', 'outdent'],
       ['table', 'image', 'link'],
-      ['code', 'codeblock'],
-      [
-        {
-          el: button,
-          command: 'insertInfobox',
-          tooltip: 'Insert Infobox'
-        }
-      ]
+      ['code', 'codeblock']
     ];
   }, []);
 
@@ -81,10 +47,21 @@ const ArticleEditor = () => {
         try {
           const res = await api.get(`/api/wiki/articles/${slug}`);
           const data = res.data;
+          setArticleId(data.article.id);
           setTitle(data.article.title);
           setTags(data.article.tags || '');
           setVisibility(data.article.status || 'published');
-          editorRef.current.getInstance().setMarkdown(data.article.content);
+          
+          let content = data.article.content;
+          const ibxMatch = content.match(/\[INFOBOX\](.*?)\[\/INFOBOX\]/s);
+          if (ibxMatch) {
+            try {
+              setInfoboxData(JSON.parse(ibxMatch[1]));
+            } catch(e) { console.error('Failed to parse infobox', e); }
+            content = content.replace(/\[INFOBOX\](.*?)\[\/INFOBOX\]/s, '').trim();
+          }
+
+          editorRef.current.getInstance().setMarkdown(content);
         } catch (err) {
           console.error('Failed to fetch article', err);
         }
@@ -118,6 +95,13 @@ const ArticleEditor = () => {
     }
   };
 
+  const handleInfoboxImageUpload = async (blob) => {
+    const formData = new FormData();
+    formData.append('image', blob, blob.name || 'uploaded_image.png');
+    const response = await api.post('/api/wiki/upload-image', formData);
+    return response.data.url;
+  };
+
   const handleSave = async (statusOverride) => {
     const status = statusOverride || visibility;
     setIsSaving(true);
@@ -125,7 +109,11 @@ const ArticleEditor = () => {
     setSuccess(null);
     
     const editorInstance = editorRef.current.getInstance();
-    const markdown = editorInstance.getMarkdown();
+    let markdown = editorInstance.getMarkdown();
+    
+    if (infoboxData.image || infoboxData.fields.length > 0) {
+      markdown += `\n\n[INFOBOX]${JSON.stringify(infoboxData)}[/INFOBOX]`;
+    }
     
     if (!title.trim()) {
       setError('Article title is required.');
@@ -134,10 +122,10 @@ const ArticleEditor = () => {
     }
 
     try {
-      const payload = { title, content: markdown, status, tags };
+      const computedSlug = slug || title.toLowerCase().replace(/[^\w ]+/g, '').replace(/ +/g, '-');
+      const payload = { id: articleId, title, slug: computedSlug, content: markdown, status, tags };
 
-      const endpoint = slug ? `/api/wiki/articles/${slug}` : '/api/wiki/articles';
-      const res = await (slug ? api.put(endpoint, payload) : api.post(endpoint, payload));
+      const res = await api.post('/api/wiki/articles', payload);
       
       const responseData = res.data;
       setSuccess(`Article saved as "${status}"!`);
@@ -154,6 +142,12 @@ const ArticleEditor = () => {
 
   return (
     <div className="article-editor-container">
+      <SEO 
+        title={slug ? `Editing: ${title}` : 'Create New Article'} 
+        description="Edit article on Erebus Wiki" 
+        noindex={true}
+      />
+
       {error && <div className="error-banner">{error}</div>}
       {success && <div className="success-banner">{success}</div>}
       
@@ -179,15 +173,15 @@ const ArticleEditor = () => {
               <div className="vis-options">
                 <label className={`vis-opt ${visibility === 'published' ? 'active' : ''}`}>
                   <input type="radio" name="visibility" value="published" checked={visibility === 'published'} onChange={() => setVisibility('published')} />
-                  🌐 Public
+                  <i className="fa-solid fa-globe"></i> Public
                 </label>
                 <label className={`vis-opt ${visibility === 'draft' ? 'active' : ''}`}>
                   <input type="radio" name="visibility" value="draft" checked={visibility === 'draft'} onChange={() => setVisibility('draft')} />
-                  📝 Draft
+                  <i className="fa-solid fa-pen"></i> Draft
                 </label>
                 <label className={`vis-opt ${visibility === 'private' ? 'active' : ''}`}>
                   <input type="radio" name="visibility" value="private" checked={visibility === 'private'} onChange={() => setVisibility('private')} />
-                  🔒 Admin Only
+                  <i className="fa-solid fa-lock"></i> Admin Only
                 </label>
               </div>
             </div>
@@ -195,19 +189,27 @@ const ArticleEditor = () => {
         </div>
       </div>
 
-      <div className="editor-wrapper">
-        <Editor
-          ref={editorRef}
-          initialValue="Start writing lore here..."
-          previewStyle="vertical"
-          height="600px"
-          initialEditType="markdown"
-          useCommandShortcut={true}
-          theme="dark"
-          toolbarItems={customToolbarItems}
-          hooks={{
-            addImageBlobHook: handleImageUpload
-          }}
+      <div className="editor-wrapper" style={{ display: 'flex', gap: '1rem', flex: 1 }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+          <Editor
+            ref={editorRef}
+            initialValue="Start writing lore here..."
+            previewStyle="vertical"
+            height="600px"
+            initialEditType="wysiwyg"
+            hideModeSwitch={true}
+            useCommandShortcut={true}
+            theme="dark"
+            toolbarItems={customToolbarItems}
+            hooks={{
+              addImageBlobHook: handleImageUpload
+            }}
+          />
+        </div>
+        <InfoboxEditor 
+          data={infoboxData} 
+          onChange={setInfoboxData} 
+          onImageUpload={handleInfoboxImageUpload}
         />
       </div>
 
@@ -234,7 +236,7 @@ const ArticleEditor = () => {
             onClick={() => handleSave()}
             disabled={isSaving}
           >
-            {isSaving ? 'Saving...' : visibility === 'private' ? '🔒 Save Private' : visibility === 'draft' ? 'Save Draft' : 'Publish'}
+            {isSaving ? 'Saving...' : visibility === 'private' ? <><i className="fa-solid fa-lock"></i> Save Private</> : visibility === 'draft' ? 'Save Draft' : 'Publish'}
           </button>
         </div>
       </div>

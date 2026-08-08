@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../utils/api';
 import ErrorModal from '../components/Common/ErrorModal';
+import SEO from '../components/Common/SEO';
 import './ElysiumBoards.css';
 
 export default function ElysiumBoards() {
@@ -64,6 +65,10 @@ export default function ElysiumBoards() {
 
   return (
     <div className="elysium-boards-container">
+      <SEO 
+        title="Elysium Boards" 
+        description="Visual corkboards for brainstorming and mapping connections." 
+      />
       <div className="boards-header">
         <h1>Elysium Boards</h1>
         <p>Visual corkboards for brainstorming and mapping connections.</p>

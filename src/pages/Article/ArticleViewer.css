@@ -167,13 +167,7 @@
   color: var(--text-secondary);
 }
 
-.article-tools {
-  font-size: 0.9em;
-  white-space: nowrap;
-  margin-left: 1em;
-  display: flex;
-  gap: 12px;
-}
+
 
 .article-not-found {
   padding: 1em;
@@ -264,6 +258,9 @@
   border: 1px solid var(--border-color);
   border-collapse: collapse;
   margin: 1em 0;
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
 .markdown-body th,

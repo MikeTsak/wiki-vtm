@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import './Login.css';
 
 const Login = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -18,11 +18,11 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (!username || !password) { setError('Please enter your username and password.'); return; }
+    if (!email || !password) { setError('Please enter your email and password.'); return; }
     setLoading(true);
     setError('');
     try {
-      await login(username, password);
+      await login(email, password);
       navigate(from, { replace: true });
     } catch (err) {
       setError(err.response?.data?.error || err.response?.data?.message || 'Invalid credentials.');
@@ -38,18 +38,18 @@ const Login = () => {
       {error && <div className="error-banner">{error}</div>}
 
       <div className="login-box">
-        <p className="login-intro">Use your Vampire Platform credentials to access private lore, edit articles, and keep your journal.</p>
+        <p className="login-intro">Use your Portal credentials to access private lore, edit articles, and keep your journal.</p>
 
         <form onSubmit={handleLogin} className="login-form">
           <div className="form-group">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="email">Email</label>
             <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Enter your username"
-              autoComplete="username"
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
+              autoComplete="email"
             />
           </div>
 

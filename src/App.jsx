@@ -7,6 +7,7 @@ import Layout from './components/Navigation/Layout';
 import ArticleEditor from './pages/EditArticle/ArticleEditor';
 import ArticleViewer from './pages/Article/ArticleViewer';
 import ArticleHistory from './pages/Article/ArticleHistory';
+import ArticleContainer from './pages/Article/ArticleContainer';
 import Login from './pages/Auth/Login';
 import Journal from './pages/Journal/Journal';
 import Timeline from './pages/Timeline/Timeline';
@@ -28,11 +29,13 @@ function App() {
         <Layout>
           <Routes>
             {/* Main page defaults to 'Main_Page' slug */}
-            <Route path="/" element={<ArticleViewer defaultSlug="Main_Page" />} />
-            <Route path="/article/:slug" element={<ArticleViewer />} />
-            <Route path="/edit/:slug" element={<ArticleEditor />} />
-            <Route path="/create" element={<ArticleEditor />} />
-            <Route path="/history/:slug" element={<ArticleHistory />} />
+            <Route element={<ArticleContainer />}>
+              <Route path="/" element={<ArticleViewer defaultSlug="Main_Page" />} />
+              <Route path="/article/:slug" element={<ArticleViewer />} />
+              <Route path="/edit/:slug" element={<ArticleEditor />} />
+              <Route path="/create" element={<ArticleEditor />} />
+              <Route path="/history/:slug" element={<ArticleHistory />} />
+            </Route>
             <Route path="/boards" element={<ElysiumBoards />} />
             <Route path="/boards/:id" element={<ElysiumBoardView />} />
             <Route path="/timeline" element={<Timeline />} />

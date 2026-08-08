@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../../utils/api';
 import { useAuth } from '../../context/AuthContext';
 import { Link } from 'react-router-dom';
+import SEO from '../../components/Common/SEO';
 import './Timeline.css';
 
 const CATEGORIES = ['General', 'Political', 'Conflict', 'Social', 'Mystery', 'Death', 'Domain'];
@@ -77,6 +78,10 @@ export default function Timeline() {
 
   return (
     <div className="tl-page">
+      <SEO 
+        title="Timeline" 
+        description="The Chronicle of Erebus. A record of events in the Domain." 
+      />
       <div className="tl-header">
         <h1 className="tl-title">Chronicle of Erebus</h1>
         <p className="tl-subtitle">A record of events in the Domain</p>
@@ -85,7 +90,7 @@ export default function Timeline() {
         )}
       </div>
 
-      {error && <div className="tl-error">{error} <button onClick={() => setError(null)}>✕</button></div>}
+      {error && <div className="tl-error">{error} <button onClick={() => setError(null)}><i className="fa-solid fa-xmark"></i></button></div>}
 
       {/* Category legend */}
       <div className="tl-legend">

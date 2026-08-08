@@ -34,12 +34,12 @@ const Layout = ({ children }) => {
     <div className="layout-container">
       <div className="top-personal-tools">
         <button className="mobile-menu-btn" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-          ☰
+          <i className="fa-solid fa-bars"></i>
         </button>
         <ul>
           {user ? (
             <>
-              <li><span className="nav-username">🧛 {user.display_name || user.username}</span></li>
+              <li><span className="nav-username"><i className="fa-solid fa-user" style={{ marginRight: '5px' }}></i>{user.display_name || user.username}</span></li>
               {isAdmin && <span className="nav-admin-badge">Admin</span>}
               <li><Link to="/journal">My Journal</Link></li>
               <li><button className="nav-logout-btn" onClick={handleLogout}>Log out</button></li>
@@ -66,9 +66,9 @@ const Layout = ({ children }) => {
             <div className="portlet-body">
               <ul>
                 <li><Link to="/">Main page</Link></li>
-                <li><Link to="/timeline">📅 Chronicle</Link></li>
+                <li><Link to="/timeline"><i className="fa-solid fa-calendar-days" style={{ width: '20px', textAlign: 'center' }}></i> Chronicle</Link></li>
                 <li><Link to="/boards">Elysium Boards</Link></li>
-                {user && <li><Link to="/journal">📒 My Journal</Link></li>}
+                {user && <li><Link to="/journal"><i className="fa-solid fa-book" style={{ width: '20px', textAlign: 'center' }}></i> My Journal</Link></li>}
                 <li><Link to="/create">Create article</Link></li>
                 {isAdmin && (
                   <li><Link to="/import">Import from Wikipedia</Link></li>
@@ -91,7 +91,7 @@ const Layout = ({ children }) => {
                 {suggestions.recent.map(article => (
                   <li key={article.id}>
                     <Link to={`/article/${article.slug}`}>{article.title}</Link>
-                    {article.status === 'private' && <span className="nav-private-dot" title="Admin only">🔒</span>}
+                    {article.status === 'private' && <span className="nav-private-dot" title="Admin only"><i className="fa-solid fa-lock"></i></span>}
                   </li>
                 ))}
               </ul>

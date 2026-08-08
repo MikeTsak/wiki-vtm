@@ -1,23 +1,24 @@
 :root {
   /* Classic Wiki Dark Palette */
-  --bg-page: #121212;
-  --bg-content: #1e1e1e;
+  --bg-page: #0f0f0f;
+  --bg-content: #181818;
   --text-primary: #e0e0e0;
   --text-secondary: #a0a0a0;
   --link-color: #8ab4f8;
   --link-visited: #c58af9;
-  --link-hover: #8ab4f8;
+  --link-hover: #a0c4ff;
   --border-color: #333333;
   --bg-header: #2d2d2d;
-  --bg-sidebar: #121212;
-  --bg-box: #2d2d2d;
+  --bg-sidebar: #0f0f0f;
+  --bg-box: #202020;
+  --bg-surface: #202020; /* For TOC and infoboxes */
   
   /* Typography */
   --font-family: sans-serif;
   --font-heading: 'Linux Libertine', 'Georgia', 'Times', serif;
   
   /* Layout */
-  --sidebar-width: 11em;
+  --sidebar-width: 12em;
   --content-max-width: 1200px;
 }
 
@@ -66,9 +67,10 @@ input, textarea, select {
   background: var(--bg-box);
   border: 1px solid var(--border-color);
   color: var(--text-primary);
-  padding: 0.4rem 0.6rem;
-  border-radius: 2px;
-  font-size: 0.9rem;
+  padding: 0.8rem 0.6rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  min-height: 48px;
 }
 
 input:focus, textarea:focus {
@@ -82,11 +84,15 @@ input:focus, textarea:focus {
   background-color: #3366cc;
   color: #ffffff;
   border: 1px solid #3366cc;
-  padding: 0.4rem 1rem;
-  border-radius: 2px;
+  padding: 0.8rem 1rem;
+  border-radius: 4px;
   font-weight: bold;
   cursor: pointer;
   transition: background-color 100ms;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-primary:visited {
@@ -109,10 +115,14 @@ input:focus, textarea:focus {
   background-color: var(--bg-box);
   color: var(--text-primary);
   border: 1px solid var(--border-color);
-  padding: 0.4rem 1rem;
-  border-radius: 2px;
+  padding: 0.8rem 1rem;
+  border-radius: 4px;
   font-weight: bold;
   cursor: pointer;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-secondary:visited, .btn-outline:visited {
@@ -138,4 +148,44 @@ input:focus, textarea:focus {
   color: #6cf7da;
   padding: 1rem;
   margin-bottom: 1rem;
+}
+
+/* Wiki Tabs (Wikipedia Style) */
+.wiki-tabs {
+  display: flex;
+  align-items: flex-end;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 1.5em;
+  padding-top: 1em;
+  gap: 0.2em;
+}
+
+.wiki-tabs a,
+.wiki-tabs .tab-active {
+  padding: 0.8em 1em;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: 4px 4px 0 0;
+  color: var(--link-color);
+  font-size: 1em;
+  background-color: var(--bg-page);
+  text-decoration: none;
+  cursor: pointer;
+  margin-bottom: -1px; /* Overlap the bottom border */
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.wiki-tabs a:hover {
+  background-color: #222;
+  text-decoration: none;
+}
+
+.wiki-tabs .tab-active,
+.wiki-tabs a.active {
+  background-color: var(--bg-content);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+  font-weight: bold;
 }

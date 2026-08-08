@@ -23,10 +23,14 @@ export function AuthProvider({ children }) {
       .finally(() => setLoading(false));
   }, []);
 
-  const login = async (username, password) => {
-    const res = await api.post('/api/auth/login', { username, password });
-    const { token, user: userData } = res.data;
+  const login = async (email, password) => {
+    const res = await api.post('/api/auth/login', { email, password });
+    const { token } = res.data;
     localStorage.setItem('token', token);
+    
+    // Fetch the user data since login only returns the token
+    const meRes = await api.get('/api/auth/me');
+    const userData = meRes.data.user || meRes.data;
     setUser(userData);
     return userData;
   };

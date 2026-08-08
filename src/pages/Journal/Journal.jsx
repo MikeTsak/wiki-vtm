@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import api from '../../utils/api';
 import { useAuth } from '../../context/AuthContext';
+import SEO from '../../components/Common/SEO';
 import './Journal.css';
 
 export default function Journal() {
@@ -101,10 +102,11 @@ export default function Journal() {
 
   return (
     <div className="jnl-page">
+      <SEO title="My Journal" noindex={true} />
       {/* ── Sidebar ── */}
       <aside className="jnl-sidebar">
         <div className="jnl-sidebar-header">
-          <h2>📒 My Journal</h2>
+          <h2><i className="fa-solid fa-book" style={{ marginRight: '8px' }}></i> My Journal</h2>
           <button className="jnl-btn-new" onClick={startNew}>+ New Entry</button>
         </div>
         {loading ? (
@@ -130,12 +132,12 @@ export default function Journal() {
       {/* ── Main panel ── */}
       <main className="jnl-main">
         {error && (
-          <div className="jnl-error">{error} <button onClick={() => setError(null)}>✕</button></div>
+          <div className="jnl-error">{error} <button onClick={() => setError(null)}><i className="fa-solid fa-xmark"></i></button></div>
         )}
 
         {!editing && !selected && (
           <div className="jnl-welcome">
-            <div className="jnl-welcome-icon">📒</div>
+            <div className="jnl-welcome-icon"><i className="fa-solid fa-book"></i></div>
             <h2>Your Private Journal</h2>
             <p>These pages are for your eyes only — personal reflections, character thoughts, and secret lore.</p>
             <button className="jnl-btn-new large" onClick={startNew}>Begin Writing</button>
