@@ -4,6 +4,7 @@ import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import '@toast-ui/editor/dist/theme/toastui-editor-dark.css';
 import api from '../../utils/api';
+import { useAuth } from '../../context/AuthContext';
 import './ArticleEditor.css';
 
 const ArticleEditor = () => {
@@ -62,27 +63,30 @@ const ArticleEditor = () => {
     ];
   }, []);
 
-  
+  const { isAdmin } = useAuth();
+
   const initialTitle = searchParams.get('title') || '';
   const importedContent = location.state?.importedContent || 'Start writing lore here...';
 
   const [title, setTitle] = useState(initialTitle);
+  const [tags, setTags] = useState('');
+  const [visibility, setVisibility] = useState('published');
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
-  // If slug exists, we are editing an existing article
   useEffect(() => {
     if (slug) {
-      // Functional mock fetch for demonstration
       const fetchArticle = async () => {
         try {
           const res = await api.get(`/api/wiki/articles/${slug}`);
           const data = res.data;
           setTitle(data.article.title);
+          setTags(data.article.tags || '');
+          setVisibility(data.article.status || 'published');
           editorRef.current.getInstance().setMarkdown(data.article.content);
         } catch (err) {
-          console.error("Failed to fetch article", err);
+          console.error('Failed to fetch article', err);
         }
       };
       fetchArticle();
@@ -114,7 +118,8 @@ const ArticleEditor = () => {
     }
   };
 
-  const handleSave = async (status) => {
+  const handleSave = async (statusOverride) => {
+    const status = statusOverride || visibility;
     setIsSaving(true);
     setError(null);
     setSuccess(null);
@@ -129,29 +134,19 @@ const ArticleEditor = () => {
     }
 
     try {
-      const payload = {
-        title,
-        content: markdown,
-        status // 'draft' or 'published'
-      };
-
-      console.log(`[STATE LOG] Triggering Save...`, payload);
+      const payload = { title, content: markdown, status, tags };
 
       const endpoint = slug ? `/api/wiki/articles/${slug}` : '/api/wiki/articles';
-
       const res = await (slug ? api.put(endpoint, payload) : api.post(endpoint, payload));
       
       const responseData = res.data;
-      setSuccess(`Article successfully saved as ${status}!`);
+      setSuccess(`Article saved as "${status}"!`);
       
-      // If it was a new creation and we published, redirect to viewer
       if (status === 'published' && !slug && responseData.slug) {
         navigate(`/article/${responseData.slug}`);
       }
-
     } catch (err) {
-      console.error(err);
-      setError(err.message);
+      setError(err.response?.data?.error || err.message);
     } finally {
       setIsSaving(false);
     }
@@ -170,6 +165,34 @@ const ArticleEditor = () => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
+        <div className="editor-meta-row">
+          <input 
+            type="text" 
+            className="tags-input" 
+            placeholder="Tags (comma separated)..." 
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
+          />
+          {isAdmin && (
+            <div className="visibility-selector">
+              <label>Visibility</label>
+              <div className="vis-options">
+                <label className={`vis-opt ${visibility === 'published' ? 'active' : ''}`}>
+                  <input type="radio" name="visibility" value="published" checked={visibility === 'published'} onChange={() => setVisibility('published')} />
+                  🌐 Public
+                </label>
+                <label className={`vis-opt ${visibility === 'draft' ? 'active' : ''}`}>
+                  <input type="radio" name="visibility" value="draft" checked={visibility === 'draft'} onChange={() => setVisibility('draft')} />
+                  📝 Draft
+                </label>
+                <label className={`vis-opt ${visibility === 'private' ? 'active' : ''}`}>
+                  <input type="radio" name="visibility" value="private" checked={visibility === 'private'} onChange={() => setVisibility('private')} />
+                  🔒 Admin Only
+                </label>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="editor-wrapper">
@@ -197,19 +220,21 @@ const ArticleEditor = () => {
           Cancel
         </button>
         <div className="primary-actions">
-          <button 
-            className="btn-secondary" 
-            onClick={() => handleSave('draft')}
-            disabled={isSaving}
-          >
-            Save as Draft
-          </button>
+          {!isAdmin && (
+            <button 
+              className="btn-secondary" 
+              onClick={() => handleSave('draft')}
+              disabled={isSaving}
+            >
+              Save as Draft
+            </button>
+          )}
           <button 
             className="btn-primary" 
-            onClick={() => handleSave('published')}
+            onClick={() => handleSave()}
             disabled={isSaving}
           >
-            {isSaving ? 'Saving...' : 'Publish'}
+            {isSaving ? 'Saving...' : visibility === 'private' ? '🔒 Save Private' : visibility === 'draft' ? 'Save Draft' : 'Publish'}
           </button>
         </div>
       </div>

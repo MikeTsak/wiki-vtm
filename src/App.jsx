@@ -2,20 +2,17 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.css';
 
+import { AuthProvider } from './context/AuthContext';
 import Layout from './components/Navigation/Layout';
 import ArticleEditor from './pages/EditArticle/ArticleEditor';
 import ArticleViewer from './pages/Article/ArticleViewer';
+import ArticleHistory from './pages/Article/ArticleHistory';
 import Login from './pages/Auth/Login';
+import Journal from './pages/Journal/Journal';
+import Timeline from './pages/Timeline/Timeline';
 
 import ElysiumBoards from './pages/ElysiumBoards';
 import ElysiumBoardView from './pages/ElysiumBoardView';
-
-const Journal = () => (
-  <div className="page-container">
-    <h1>My Private Journal</h1>
-    <p>Personal lore notes and character reflections.</p>
-  </div>
-);
 
 const WikipediaImport = () => (
   <div className="page-container">
@@ -26,22 +23,26 @@ const WikipediaImport = () => (
 
 function App() {
   return (
-    <BrowserRouter>
-      <Layout>
-        <Routes>
-          {/* Main page defaults to 'Main_Page' slug */}
-          <Route path="/" element={<ArticleViewer defaultSlug="Main_Page" />} />
-          <Route path="/article/:slug" element={<ArticleViewer />} />
-          <Route path="/edit/:slug" element={<ArticleEditor />} />
-          <Route path="/create" element={<ArticleEditor />} />
-          <Route path="/boards" element={<ElysiumBoards />} />
-          <Route path="/boards/:id" element={<ElysiumBoardView />} />
-          <Route path="/journal" element={<Journal />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/import" element={<WikipediaImport />} />
-        </Routes>
-      </Layout>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Layout>
+          <Routes>
+            {/* Main page defaults to 'Main_Page' slug */}
+            <Route path="/" element={<ArticleViewer defaultSlug="Main_Page" />} />
+            <Route path="/article/:slug" element={<ArticleViewer />} />
+            <Route path="/edit/:slug" element={<ArticleEditor />} />
+            <Route path="/create" element={<ArticleEditor />} />
+            <Route path="/history/:slug" element={<ArticleHistory />} />
+            <Route path="/boards" element={<ElysiumBoards />} />
+            <Route path="/boards/:id" element={<ElysiumBoardView />} />
+            <Route path="/timeline" element={<Timeline />} />
+            <Route path="/journal" element={<Journal />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/import" element={<WikipediaImport />} />
+          </Routes>
+        </Layout>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

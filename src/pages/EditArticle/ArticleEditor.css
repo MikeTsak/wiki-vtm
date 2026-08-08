@@ -32,6 +32,77 @@
   border-bottom-color: var(--link-color);
 }
 
+.editor-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.tags-input {
+  flex: 1;
+  min-width: 200px;
+  padding: 10px 14px;
+  font-size: 0.95em;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  border-radius: 4px;
+}
+
+.visibility-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.visibility-selector > label {
+  font-size: 0.8em;
+  color: var(--text-secondary);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.vis-options {
+  display: flex;
+  gap: 6px;
+}
+
+.vis-opt {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border: 1px solid #3a2a1a;
+  border-radius: 4px;
+  font-size: 0.82em;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all 0.15s;
+  background: transparent;
+  white-space: nowrap;
+}
+
+.vis-opt input[type="radio"] { display: none; }
+
+.vis-opt:hover { border-color: #888; color: var(--text-primary); }
+
+.vis-opt.active {
+  border-color: #8b1a1a;
+  background: #2a0808;
+  color: #e74c3c;
+}
+
+.vis-opt.active[value="published"],
+.vis-opt:has(input[value="published"]).active {
+  border-color: #1a5e1a;
+  background: #0a2a0a;
+  color: #2ecc71;
+}
+
 .editor-wrapper {
   flex: 1;
   display: flex;
