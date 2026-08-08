@@ -1,0 +1,71 @@
+.article-editor-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  height: calc(100vh - 8rem);
+}
+
+.editor-header {
+  display: flex;
+  flex-direction: column;
+}
+
+.title-input {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  padding: 0.5rem 0;
+  border: none;
+  border-bottom: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--text-primary);
+  border-radius: 0;
+}
+
+.title-input::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.5;
+}
+
+.title-input:focus {
+  outline: none;
+  box-shadow: none;
+  border-bottom-color: var(--link-color);
+}
+
+.editor-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ToastUI Editor basic overrides for classic theme */
+.toastui-editor-defaultUI {
+  border: 1px solid var(--border-color) !important;
+  border-radius: 2px;
+}
+
+.toastui-editor-contents {
+  font-family: var(--font-family) !important;
+  font-size: 14px !important;
+  color: var(--text-primary) !important;
+  line-height: 1.6 !important;
+}
+
+.toastui-editor-contents h1,
+.toastui-editor-contents h2,
+.toastui-editor-contents h3 {
+  font-family: var(--font-heading) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+.editor-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.primary-actions {
+  display: flex;
+  gap: 1rem;
+}

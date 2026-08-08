@@ -1,0 +1,76 @@
+.meili-search-container {
+  position: relative;
+  width: 100%;
+}
+
+.meili-search-input {
+  width: 100%;
+  padding: 0.5em 1em;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-box);
+  color: var(--text-primary);
+  border-radius: 4px;
+}
+
+.meili-search-input:focus {
+  outline: none;
+  border-color: var(--link-color);
+}
+
+.meili-hits-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--bg-box);
+  border: 1px solid var(--border-color);
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  z-index: 100;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.meili-hits-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.meili-hits-item {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.meili-hits-item:last-child {
+  border-bottom: none;
+}
+
+.search-hit {
+  padding: 0.8em 1em;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.search-hit:hover {
+  background-color: var(--bg-page);
+}
+
+.search-hit-title {
+  font-family: var(--font-heading);
+  font-size: 1.1em;
+  color: var(--link-color);
+  margin-bottom: 0.2em;
+}
+
+.search-hit-snippet {
+  font-size: 0.85em;
+  color: var(--text-secondary);
+}
+
+/* Meilisearch Highlight tag styling */
+.ais-Highlight-highlighted {
+  background-color: rgba(255, 255, 0, 0.2);
+  color: var(--text-primary);
+  font-weight: bold;
+}

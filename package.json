@@ -1,0 +1,27 @@
+{
+  "name": "attlarp-wiki",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@meilisearch/instant-meilisearch": "^0.31.3",
+    "@toast-ui/react-editor": "^3.2.3",
+    "meilisearch": "^0.37.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-instantsearch": "^7.42.0",
+    "react-markdown": "^10.1.0",
+    "react-router-dom": "^6.22.3",
+    "rehype-raw": "^7.0.0",
+    "remark-gfm": "^4.0.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.2.0"
+  }
+}

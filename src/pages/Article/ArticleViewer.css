@@ -1,0 +1,141 @@
+.viewer-container {
+  display: block;
+}
+
+.article-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.firstHeading {
+  font-family: var(--font-heading);
+  font-weight: normal;
+  margin-bottom: 0.25em;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0;
+  width: 100%;
+}
+
+.siteSub {
+  font-size: 0.9em;
+  margin-bottom: 1.5em;
+  color: var(--text-secondary);
+}
+
+.article-tools {
+  font-size: 0.9em;
+  white-space: nowrap;
+  margin-left: 1em;
+}
+
+.article-not-found {
+  padding: 1em;
+  background-color: var(--bg-box);
+  border: 1px solid var(--border-color);
+}
+
+/* Markdown Styles */
+.markdown-body {
+  font-family: var(--font-family);
+  font-size: 1em;
+  line-height: 1.6;
+  color: var(--text-primary);
+}
+
+.markdown-body h1, 
+.markdown-body h2, 
+.markdown-body h3, 
+.markdown-body h4 {
+  font-family: var(--font-heading);
+  color: var(--text-primary);
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.markdown-body h2 {
+  font-size: 1.5em;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.2em;
+}
+
+.markdown-body p {
+  margin-bottom: 1em;
+}
+
+.markdown-body a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+.markdown-body a:visited {
+  color: var(--link-visited);
+}
+
+.markdown-body a:hover {
+  text-decoration: underline;
+}
+
+.markdown-body blockquote {
+  border-left: 3px solid var(--border-color);
+  padding: 0.5em 1em;
+  margin: 1em 0;
+  background-color: var(--bg-box);
+}
+
+.markdown-body ul, 
+.markdown-body ol {
+  padding-left: 2em;
+  margin-bottom: 1em;
+  margin-top: 0.3em;
+}
+
+.markdown-body li {
+  margin-bottom: 0.2em;
+}
+
+.markdown-body img {
+  max-width: 100%;
+  border: 1px solid var(--border-color);
+  padding: 3px;
+  background-color: var(--bg-box);
+  margin: 1em 0;
+}
+
+/* Table styles */
+.markdown-body table {
+  background-color: var(--bg-box);
+  border: 1px solid var(--border-color);
+  border-collapse: collapse;
+  margin: 1em 0;
+}
+
+.markdown-body th,
+.markdown-body td {
+  border: 1px solid var(--border-color);
+  padding: 0.2em 0.4em;
+}
+
+.markdown-body th {
+  background-color: var(--bg-header);
+  text-align: center;
+}
+
+/* Custom Spoiler Styles */
+.custom-spoiler {
+  background-color: var(--bg-box);
+  border: 1px solid var(--border-color);
+  margin: 1em 0;
+  padding: 0.5em;
+}
+
+.custom-spoiler summary {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.spoiler-content {
+  padding-top: 0.5em;
+  border-top: 1px dashed var(--border-color);
+  margin-top: 0.5em;
+}

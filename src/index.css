@@ -1,0 +1,141 @@
+:root {
+  /* Classic Wiki Dark Palette */
+  --bg-page: #121212;
+  --bg-content: #1e1e1e;
+  --text-primary: #e0e0e0;
+  --text-secondary: #a0a0a0;
+  --link-color: #8ab4f8;
+  --link-visited: #c58af9;
+  --link-hover: #8ab4f8;
+  --border-color: #333333;
+  --bg-header: #2d2d2d;
+  --bg-sidebar: #121212;
+  --bg-box: #2d2d2d;
+  
+  /* Typography */
+  --font-family: sans-serif;
+  --font-heading: 'Linux Libertine', 'Georgia', 'Times', serif;
+  
+  /* Layout */
+  --sidebar-width: 11em;
+  --content-max-width: 1200px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: normal;
+  margin-bottom: 0.25em;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.25em;
+}
+
+h1 { font-size: 1.8em; }
+h2 { font-size: 1.5em; }
+h3 { font-size: 1.2em; border-bottom: none; font-weight: bold; font-family: var(--font-family); }
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+a:visited {
+  color: var(--link-visited);
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Global input resets */
+input, textarea, select {
+  font-family: var(--font-family);
+  background: var(--bg-box);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 0.4rem 0.6rem;
+  border-radius: 2px;
+  font-size: 0.9rem;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--link-color);
+  box-shadow: inset 0 0 0 1px var(--link-color);
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: #3366cc;
+  color: #ffffff;
+  border: 1px solid #3366cc;
+  padding: 0.4rem 1rem;
+  border-radius: 2px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 100ms;
+}
+
+.btn-primary:visited {
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: #4477dd;
+  text-decoration: none;
+}
+
+.btn-primary:disabled {
+  background-color: var(--border-color);
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+  cursor: not-allowed;
+}
+
+.btn-secondary, .btn-outline {
+  background-color: var(--bg-box);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  padding: 0.4rem 1rem;
+  border-radius: 2px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-secondary:visited, .btn-outline:visited {
+  color: var(--text-primary);
+}
+
+.btn-secondary:hover, .btn-outline:hover {
+  background-color: var(--bg-page);
+  text-decoration: none;
+}
+
+.error-banner {
+  background-color: #4a1917;
+  border: 1px solid #d33;
+  color: #ff9999;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.success-banner {
+  background-color: #0b3d31;
+  border: 1px solid #14866d;
+  color: #6cf7da;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}

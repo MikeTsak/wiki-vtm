@@ -1,0 +1,99 @@
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.top-personal-tools {
+  text-align: right;
+  padding: 0.5em 1em;
+  font-size: 0.85em;
+}
+
+.top-personal-tools ul {
+  list-style: none;
+  display: inline-flex;
+  gap: 1em;
+}
+
+.wiki-wrapper {
+  display: flex;
+  flex: 1;
+}
+
+.sidebar {
+  width: var(--sidebar-width);
+  padding: 1.5em 0.5em 1em 1em;
+  font-size: 0.9em;
+}
+
+.sidebar-logo {
+  margin-bottom: 2em;
+  text-align: center;
+}
+
+.logo-placeholder {
+  font-family: var(--font-heading);
+  font-size: 2em;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  padding: 0.5em;
+  display: inline-block;
+  background-color: var(--bg-box);
+}
+
+.sidebar-portlet {
+  margin-bottom: 1.5em;
+}
+
+.sidebar-portlet h3 {
+  font-size: 0.8em;
+  color: var(--text-secondary);
+  border: none;
+  margin-left: 0.5em;
+  margin-bottom: 0.2em;
+  text-transform: uppercase;
+}
+
+.portlet-body {
+  background-color: var(--bg-box);
+  border: 1px solid var(--border-color);
+  padding: 0.5em;
+}
+
+.portlet-body ul {
+  list-style: none;
+}
+
+.portlet-body li {
+  margin-bottom: 0.2em;
+}
+
+.sidebar-search {
+  display: flex;
+  gap: 0.2em;
+}
+
+.sidebar-search input {
+  width: 100%;
+  padding: 0.2em;
+}
+
+.sidebar-search button {
+  padding: 0.2em 0.5em;
+  background-color: var(--bg-page);
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+}
+
+.content-area {
+  flex: 1;
+  padding: 1.5em;
+  background-color: var(--bg-content);
+  border-left: 1px solid var(--border-color);
+  border-top: 1px solid var(--border-color);
+}
+
+.content-inner {
+  max-width: var(--content-max-width);
+}

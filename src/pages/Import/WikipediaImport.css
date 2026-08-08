@@ -1,0 +1,45 @@
+.import-page {
+  max-width: 800px;
+}
+
+.import-intro {
+  margin-bottom: 2em;
+  color: var(--text-secondary);
+}
+
+.import-search-form {
+  display: flex;
+  gap: 1em;
+  margin-bottom: 2em;
+}
+
+.search-input-large {
+  flex: 1;
+  font-size: 1.1em;
+  padding: 0.5em 0.8em;
+}
+
+.results-list {
+  list-style: none;
+  padding: 0;
+}
+
+.result-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em;
+  border: 1px solid var(--border-color);
+  margin-bottom: 1em;
+  background-color: var(--bg-box);
+}
+
+.result-title {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.result-actions {
+  display: flex;
+  gap: 1em;
+}
