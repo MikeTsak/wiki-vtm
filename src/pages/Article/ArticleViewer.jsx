@@ -10,36 +10,36 @@ import './ArticleViewer.css';
 const ArticleViewer = ({ defaultSlug }) => {
   const params = useParams();
   const slug = params.slug || defaultSlug;
-  
+
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [modalError, setModalError] = useState(null);
-  
+
   // Example auth state
   const isAuthorized = false;
 
   useEffect(() => {
     if (!slug) return;
-    
+
     const fetchArticle = async () => {
       setLoading(true);
       setError(null);
-        try {
-          const res = await api.get(`/api/wiki/articles/${slug}`);
-          setArticle(res.data.article);
-        } catch (err) {
-          if (err.response && err.response.status === 404) {
-            setArticle(null);
-            setError(`Article "${slug}" does not exist.`);
-            return;
-          }
-          setModalError(err.message || 'Failed to fetch article.');
-        } finally {
+      try {
+        const res = await api.get(`/api/wiki/articles/${slug}`);
+        setArticle(res.data.article);
+      } catch (err) {
+        if (err.response && err.response.status === 404) {
+          setArticle(null);
+          setError(`Article "${slug}" does not exist.`);
+          return;
+        }
+        setModalError(err.message || 'Failed to fetch article.');
+      } finally {
         setLoading(false);
       }
     };
-    
+
     fetchArticle();
   }, [slug]);
 
@@ -51,7 +51,7 @@ const ArticleViewer = ({ defaultSlug }) => {
   const processMarkdown = (text) => {
     if (!text) return '';
     return text.replace(
-      /\[spoiler\]([\s\S]*?)\[\/spoiler\]/gi, 
+      /\[spoiler\]([\s\S]*?)\[\/spoiler\]/gi,
       '<details class="custom-spoiler"><summary>Spoiler</summary><div class="spoiler-content">$1</div></details>'
     );
   };
@@ -67,27 +67,27 @@ const ArticleViewer = ({ defaultSlug }) => {
           {!article && <Link to={`/create?slug=${slug}`}>Create</Link>}
         </div>
       </div>
-      
-      <ErrorModal 
-        isOpen={!!modalError} 
-        onClose={() => setModalError(null)} 
+
+      <ErrorModal
+        isOpen={!!modalError}
+        onClose={() => setModalError(null)}
         title="Article Error"
-        error={modalError} 
+        error={modalError}
       />
 
-      <div className="siteSub">From LoreVault, the free encyclopedia</div>
+      <div className="siteSub">From Erebus Wiki, the free encyclopedia</div>
 
       {error && !article && (
         <div className="article-not-found">
-          <p><strong>LoreVault does not have an article with this exact name.</strong></p>
+          <p><strong>Erebus Wiki does not have an article with this exact name.</strong></p>
           <p>You can <Link to={`/create?title=${slug}`}>create this page</Link> or <Link to={`/import?q=${slug}`}>search for it on Wikipedia</Link>.</p>
         </div>
       )}
 
       {article && (
         <div className="markdown-body">
-          <ReactMarkdown 
-            remarkPlugins={[remarkGfm]} 
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeRaw]}
             components={{
               a: ({ node, ...props }) => {
