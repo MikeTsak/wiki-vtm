@@ -40,6 +40,8 @@ const ArticleEditor = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [draftFound, setDraftFound] = useState(null);
+  const [lastAutosave, setLastAutosave] = useState(null);
 
   useEffect(() => {
     if (slug) {
@@ -70,7 +72,37 @@ const ArticleEditor = () => {
     } else if (importedContent) {
       editorRef.current.getInstance().setMarkdown(importedContent);
     }
+
+    // Check for drafts
+    const draftKey = `wiki_draft_${slug || 'new'}`;
+    const saved = localStorage.getItem(draftKey);
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        setDraftFound(parsed);
+      } catch(e) {}
+    }
   }, [slug, importedContent]);
+
+  // Autosave interval
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (editorRef.current) {
+        const draftKey = `wiki_draft_${slug || 'new'}`;
+        const markdown = editorRef.current.getInstance().getMarkdown();
+        if (markdown.length > 10 || title.length > 0) {
+          localStorage.setItem(draftKey, JSON.stringify({
+            title,
+            markdown,
+            infoboxData,
+            timestamp: Date.now()
+          }));
+          setLastAutosave(new Date());
+        }
+      }
+    }, 30000);
+    return () => clearInterval(interval);
+  }, [slug, title, infoboxData]);
 
   /**
    * Intercepts image pastes/drops in Toast UI and uploads them to the backend.
@@ -130,6 +162,10 @@ const ArticleEditor = () => {
       const responseData = res.data;
       setSuccess(`Article saved as "${status}"!`);
       
+      // Clear draft on successful save
+      localStorage.removeItem(`wiki_draft_${slug || 'new'}`);
+      setDraftFound(null);
+
       if (status === 'published' && !slug && responseData.slug) {
         navigate(`/article/${responseData.slug}`);
       }
@@ -150,6 +186,24 @@ const ArticleEditor = () => {
 
       {error && <div className="error-banner">{error}</div>}
       {success && <div className="success-banner">{success}</div>}
+
+      {draftFound && (
+        <div className="info-banner" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span>You have an unsaved draft from {new Date(draftFound.timestamp).toLocaleString()}.</span>
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <button className="btn-secondary" onClick={() => {
+              setTitle(draftFound.title);
+              setInfoboxData(draftFound.infoboxData);
+              editorRef.current.getInstance().setMarkdown(draftFound.markdown);
+              setDraftFound(null);
+            }}>Restore Draft</button>
+            <button className="btn-outline" onClick={() => {
+              localStorage.removeItem(`wiki_draft_${slug || 'new'}`);
+              setDraftFound(null);
+            }}>Discard</button>
+          </div>
+        </div>
+      )}
       
       <div className="editor-header">
         <input 
@@ -240,6 +294,11 @@ const ArticleEditor = () => {
           </button>
         </div>
       </div>
+      {lastAutosave && (
+        <div style={{ textAlign: 'right', fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.5rem' }}>
+          Last autosaved at {lastAutosave.toLocaleTimeString()}
+        </div>
+      )}
     </div>
   );
 };

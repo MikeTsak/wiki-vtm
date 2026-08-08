@@ -11,6 +11,7 @@ import ArticleContainer from './pages/Article/ArticleContainer';
 import Login from './pages/Auth/Login';
 import Journal from './pages/Journal/Journal';
 import Timeline from './pages/Timeline/Timeline';
+import LoreGraph from './pages/LoreGraph/LoreGraph';
 
 import ElysiumBoards from './pages/ElysiumBoards';
 import ElysiumBoardView from './pages/ElysiumBoardView';
@@ -40,6 +41,7 @@ function App() {
             <Route path="/boards/:id" element={<ElysiumBoardView />} />
             <Route path="/timeline" element={<Timeline />} />
             <Route path="/journal" element={<Journal />} />
+            <Route path="/graph" element={<LoreGraph />} />
             <Route path="/login" element={<Login />} />
             <Route path="/import" element={<WikipediaImport />} />
           </Routes>

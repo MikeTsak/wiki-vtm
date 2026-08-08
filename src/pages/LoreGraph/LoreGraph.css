@@ -1,0 +1,46 @@
+.lore-graph-container {
+  width: 100%;
+  height: calc(100vh - 80px); /* Assuming header is ~80px */
+  position: relative;
+  background-color: #0a0604;
+  overflow: hidden;
+}
+
+.graph-overlay {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+  background: rgba(15, 10, 5, 0.85);
+  padding: 16px 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+}
+
+.graph-overlay h2 {
+  margin: 0 0 8px 0;
+  color: #d4a84b;
+  font-family: var(--font-heading);
+}
+
+.graph-overlay p {
+  margin: 0;
+  font-size: 0.9em;
+  color: var(--text-secondary);
+}
+
+.graph-loading,
+.graph-error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-size: 1.2em;
+  color: var(--text-secondary);
+}
+
+.graph-error {
+  color: #e74c3c;
+}

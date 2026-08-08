@@ -7,6 +7,7 @@ import api from '../../utils/api';
 import { useAuth } from '../../context/AuthContext';
 import ErrorModal from '../../components/Common/ErrorModal';
 import SEO from '../../components/Common/SEO';
+import ArticleHistory from '../../components/Wiki/ArticleHistory';
 import './ArticleViewer.css';
 
 const ArticleViewer = ({ defaultSlug }) => {
@@ -25,6 +26,9 @@ const ArticleViewer = ({ defaultSlug }) => {
   const [notesOpen, setNotesOpen] = useState(false);
   const [newNote, setNewNote] = useState('');
   const [savingNote, setSavingNote] = useState(false);
+
+  // Tab state
+  const [activeTab, setActiveTab] = useState('read');
 
   useEffect(() => {
     if (!slug) return;
@@ -114,6 +118,10 @@ const ArticleViewer = ({ defaultSlug }) => {
       /\[spoiler\]([\s\S]*?)\[\/spoiler\]/gi,
       '<details class="custom-spoiler"><summary>Spoiler</summary><div class="spoiler-content">$1</div></details>'
     );
+    processed = processed.replace(
+      /\[GALLERY\]([\s\S]*?)\[\/GALLERY\]/gi,
+      '<div class="wiki-gallery">\n\n$1\n\n</div>'
+    );
     processed = processed.replace(/(?:\\?\[){2}(.*?)(?:\\?\]){2}/g, (match, p1) => {
       const linkSlug = p1.trim().replace(/\s+/g, '-');
       return `<a href="/article/${linkSlug}">${p1}</a>`;
@@ -138,6 +146,12 @@ const ArticleViewer = ({ defaultSlug }) => {
             <span className="private-badge" title="This article is visible to admins only"><i className="fa-solid fa-lock" style={{ marginRight: '5px' }}></i> Admin Only</span>
           )}
         </h1>
+        {article && (
+          <div className="article-tabs">
+            <button className={`tab-btn ${activeTab === 'read' ? 'active' : ''}`} onClick={() => setActiveTab('read')}>Read</button>
+            <button className={`tab-btn ${activeTab === 'history' ? 'active' : ''}`} onClick={() => setActiveTab('history')}>History</button>
+          </div>
+        )}
       </div>
 
       <ErrorModal
@@ -164,7 +178,12 @@ const ArticleViewer = ({ defaultSlug }) => {
 
       {article && (
         <div className="article-layout">
-          <div className="markdown-body">
+          {activeTab === 'history' ? (
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <ArticleHistory slug={slug} onRevert={() => window.location.reload()} />
+            </div>
+          ) : (
+            <div className="markdown-body">
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               rehypePlugins={[rehypeRaw]}
@@ -229,6 +248,7 @@ const ArticleViewer = ({ defaultSlug }) => {
               </div>
             )}
           </div>
+          )}
 
           {(toc.length > 0 || article.infobox) && (
             <div className="article-sidebar">

@@ -67,6 +67,7 @@ const Layout = ({ children }) => {
               <ul>
                 <li><Link to="/">Main page</Link></li>
                 <li><Link to="/timeline"><i className="fa-solid fa-calendar-days" style={{ width: '20px', textAlign: 'center' }}></i> Chronicle</Link></li>
+                <li><Link to="/graph"><i className="fa-solid fa-diagram-project" style={{ width: '20px', textAlign: 'center' }}></i> Lore Graph</Link></li>
                 <li><Link to="/boards">Elysium Boards</Link></li>
                 {user && <li><Link to="/journal"><i className="fa-solid fa-book" style={{ width: '20px', textAlign: 'center' }}></i> My Journal</Link></li>}
                 <li><Link to="/create">Create article</Link></li>
