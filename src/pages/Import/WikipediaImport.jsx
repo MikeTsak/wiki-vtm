@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate, Link } from 'react-router-dom';
+import api from '../../utils/api';
 import './WikipediaImport.css';
 
 const WikipediaImport = () => {
@@ -26,12 +27,10 @@ const WikipediaImport = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`/api/wiki/external/wikipedia/search?q=${encodeURIComponent(searchQuery)}`);
-      if (!res.ok) throw new Error('Search failed');
-      const data = await res.json();
-      setResults(data.results || []);
+      const res = await api.get(`/api/wiki/external/wikipedia/search?q=${encodeURIComponent(searchQuery)}`);
+      setResults(res.data.results || []);
     } catch (err) {
-      setError('Failed to search Wikipedia. ' + err.message);
+      setError('Failed to search Wikipedia. ' + (err.message || ''));
     } finally {
       setLoading(false);
     }
@@ -47,9 +46,8 @@ const WikipediaImport = () => {
     setError(null);
     try {
       // 1. Fetch from Wikipedia
-      const res = await fetch(`/api/wiki/external/wikipedia/fetch?title=${encodeURIComponent(title)}`);
-      if (!res.ok) throw new Error('Fetch failed');
-      const data = await res.json();
+      const res = await api.get(`/api/wiki/external/wikipedia/fetch?title=${encodeURIComponent(title)}`);
+      const data = res.data;
       
       // 2. Add source attribution
       const finalContent = `> *Imported from Wikipedia article: [${data.title}](https://en.wikipedia.org/wiki/${encodeURIComponent(data.title.replace(/ /g, '_'))})*\n\n${data.content}`;

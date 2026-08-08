@@ -3,6 +3,8 @@ import { useParams, Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
+import api from '../../utils/api';
+import ErrorModal from '../../components/Common/ErrorModal';
 import './ArticleViewer.css';
 
 const ArticleViewer = ({ defaultSlug }) => {
@@ -12,6 +14,7 @@ const ArticleViewer = ({ defaultSlug }) => {
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [modalError, setModalError] = useState(null);
   
   // Example auth state
   const isAuthorized = false;
@@ -22,21 +25,17 @@ const ArticleViewer = ({ defaultSlug }) => {
     const fetchArticle = async () => {
       setLoading(true);
       setError(null);
-      try {
-        const res = await fetch(`/api/wiki/articles/${slug}`);
-        if (!res.ok) {
-          if (res.status === 404) {
+        try {
+          const res = await api.get(`/api/wiki/articles/${slug}`);
+          setArticle(res.data.article);
+        } catch (err) {
+          if (err.response && err.response.status === 404) {
             setArticle(null);
             setError(`Article "${slug}" does not exist.`);
             return;
           }
-          throw new Error('Failed to fetch article.');
-        }
-        const data = await res.json();
-        setArticle(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
+          setModalError(err.message || 'Failed to fetch article.');
+        } finally {
         setLoading(false);
       }
     };
@@ -69,6 +68,13 @@ const ArticleViewer = ({ defaultSlug }) => {
         </div>
       </div>
       
+      <ErrorModal 
+        isOpen={!!modalError} 
+        onClose={() => setModalError(null)} 
+        title="Article Error"
+        error={modalError} 
+      />
+
       <div className="siteSub">From LoreVault, the free encyclopedia</div>
 
       {error && !article && (

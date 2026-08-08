@@ -2,21 +2,14 @@ import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './Layout.css';
 import MeiliSearchBox from '../Search/MeiliSearchBox';
+import Footer from './Footer';
 
 const Layout = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState('');
-
   // Example auth state - should come from context in a real app
   const isAuthenticated = false;
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/import?q=${encodeURIComponent(searchQuery)}`);
-    }
-  };
+  const isAdmin = false; // Placeholder
 
   return (
     <div className="layout-container">
@@ -40,7 +33,7 @@ const Layout = ({ children }) => {
         <aside className="sidebar">
           <div className="sidebar-logo">
             <Link to="/">
-              <div className="logo-placeholder">WIKI</div>
+              <img src="/erebus-wiki-logo.png" alt="Erebus Wiki" className="site-logo" />
             </Link>
           </div>
           
@@ -49,9 +42,11 @@ const Layout = ({ children }) => {
             <div className="portlet-body">
               <ul>
                 <li><Link to="/">Main page</Link></li>
-                <li><Link to="/boards">Boards</Link></li>
+                <li><Link to="/boards">Elysium Boards</Link></li>
                 <li><Link to="/create">Create article</Link></li>
-                <li><Link to="/import">Import from Wikipedia</Link></li>
+                {isAdmin && (
+                  <li><Link to="/import">Import from Wikipedia</Link></li>
+                )}
               </ul>
             </div>
           </div>
@@ -68,6 +63,7 @@ const Layout = ({ children }) => {
           <div className="content-inner">
             {children}
           </div>
+          <Footer />
         </main>
       </div>
     </div>

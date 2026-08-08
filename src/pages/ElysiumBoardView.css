@@ -1,0 +1,123 @@
+.board-view-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  /* Override layout padding so it is fullscreen */
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  background-color: var(--bg-page);
+}
+
+.board-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: var(--bg-box);
+  border-bottom: 2px solid var(--border-color);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.toolbar-left, .toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.back-link {
+  color: var(--link-color);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.board-title-input {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.board-title-input:hover, .board-title-input:focus {
+  border-color: var(--border-color);
+  background: var(--bg-page);
+  outline: none;
+}
+
+.toolbar-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.primary-btn {
+  background-color: var(--link-color);
+  color: var(--bg-page);
+}
+
+.primary-btn:hover {
+  opacity: 0.9;
+}
+
+.save-status {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  min-width: 120px;
+  text-align: right;
+  transition: opacity 0.3s ease;
+}
+
+.save-status.saving {
+  color: #ffb84d;
+  opacity: 1;
+}
+
+.save-status.saved {
+  color: #4CAF50;
+  opacity: 1;
+}
+
+.save-status.error {
+  color: #ff3333;
+  opacity: 1;
+}
+
+.board-canvas-wrapper {
+  flex-grow: 1;
+  position: relative;
+}
+
+/* React Flow custom styling - default path if not styled in JSX */
+.react-flow__edge-path {
+  stroke: #c80000;
+  stroke-width: 4;
+  filter: drop-shadow(2px 3px 2px rgba(0,0,0,0.5));
+}
+
+/* Hide attribution slightly if desired */
+.react-flow__attribution {
+  opacity: 0.5;
+}
+
+.share-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.share-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+}

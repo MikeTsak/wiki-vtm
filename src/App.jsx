@@ -7,13 +7,8 @@ import ArticleEditor from './pages/EditArticle/ArticleEditor';
 import ArticleViewer from './pages/Article/ArticleViewer';
 import Login from './pages/Auth/Login';
 
-// Placeholder components
-const Boards = () => (
-  <div className="page-container">
-    <h1>Boards Dashboard</h1>
-    <p>Public and private brainstorming boards.</p>
-  </div>
-);
+import ElysiumBoards from './pages/ElysiumBoards';
+import ElysiumBoardView from './pages/ElysiumBoardView';
 
 const Journal = () => (
   <div className="page-container">
@@ -39,7 +34,8 @@ function App() {
           <Route path="/article/:slug" element={<ArticleViewer />} />
           <Route path="/edit/:slug" element={<ArticleEditor />} />
           <Route path="/create" element={<ArticleEditor />} />
-          <Route path="/boards" element={<Boards />} />
+          <Route path="/boards" element={<ElysiumBoards />} />
+          <Route path="/boards/:id" element={<ElysiumBoardView />} />
           <Route path="/journal" element={<Journal />} />
           <Route path="/login" element={<Login />} />
           <Route path="/import" element={<WikipediaImport />} />

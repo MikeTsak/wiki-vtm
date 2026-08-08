@@ -11,6 +11,9 @@
   "dependencies": {
     "@meilisearch/instant-meilisearch": "^0.31.3",
     "@toast-ui/react-editor": "^3.2.3",
+    "@xyflow/react": "^12.11.2",
+    "axios": "^1.19.0",
+    "lucide-react": "^1.30.0",
     "meilisearch": "^0.37.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

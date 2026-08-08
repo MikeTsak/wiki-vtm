@@ -1,0 +1,87 @@
+.wiki-footer {
+  margin-top: 2em;
+  padding: 1.25em 0 1.25em 0;
+  border-top: 1px solid var(--border-color);
+  font-size: 0.75em;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  clear: both;
+}
+
+.wiki-footer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.wiki-footer li {
+  color: var(--text-secondary);
+}
+
+.wiki-footer a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+.wiki-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Icons (right aligned) */
+#footer-icons {
+  float: right;
+  margin-left: 1em;
+}
+
+#footer-icons li {
+  float: left;
+  margin-left: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.footer-icon-img {
+  height: 31px;
+  width: auto;
+  max-width: 88px;
+  object-fit: contain;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-page);
+  border-radius: 2px;
+  vertical-align: middle;
+}
+
+/* Specific styling for the brand to match the wiki look */
+.footer-logo {
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.8)) drop-shadow(0 0 1px rgba(255, 255, 255, 1));
+}
+
+/* Info section (legal text) */
+#footer-info {
+  margin-bottom: 0.5em;
+}
+
+#footer-info li {
+  margin-bottom: 0.4em;
+}
+
+/* Places section (links) */
+#footer-places li {
+  display: inline-block;
+  margin-right: 1em;
+  margin-bottom: 0.4em;
+}
+
+/* Buttons in places */
+#footer-places button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--link-color);
+  cursor: pointer;
+  outline: none;
+}
+
+#footer-places button:hover {
+  text-decoration: underline;
+}

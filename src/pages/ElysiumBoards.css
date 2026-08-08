@@ -1,0 +1,287 @@
+.elysium-boards-container {
+  padding: 2em;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.boards-header {
+  margin-bottom: 3em;
+  padding-bottom: 2em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1em;
+}
+
+.boards-header h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  background: linear-gradient(135deg, #fff, #a0a0a0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.boards-header p {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.create-board-btn {
+  background: linear-gradient(135deg, #c80000, #8a0000);
+  color: #fff;
+  border: none;
+  padding: 0.75em 1.5em;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: 0 4px 15px rgba(200, 0, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.create-board-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(200, 0, 0, 0.4);
+  background: linear-gradient(135deg, #e60000, #a10000);
+}
+
+.create-board-btn:active {
+  transform: translateY(1px);
+}
+
+.boards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2em;
+}
+
+.board-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: rgba(30, 30, 30, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text-primary);
+  min-height: 160px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.board-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #c80000, transparent);
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.board-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(40, 40, 40, 0.8);
+}
+
+.board-card:hover::before {
+  opacity: 1;
+  background: linear-gradient(90deg, #ff3333, #c80000);
+}
+
+.board-card-content {
+  padding: 1.5em;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.board-card-content h3 {
+  margin: 0 0 1em 0;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  color: #fff;
+}
+
+.board-meta {
+  margin-top: auto;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.empty-state, .loading-state {
+  padding: 4em 2em;
+  text-align: center;
+  color: var(--text-secondary);
+  background: rgba(20, 20, 20, 0.5);
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  font-size: 1.1rem;
+}
+
+/* Create Board Modal */
+.eb-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.eb-modal-content {
+  background: rgba(25, 25, 25, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 2em;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.eb-modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 1.5em;
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 0.5em;
+}
+
+.eb-form-group {
+  margin-bottom: 1.5em;
+}
+
+.eb-form-group label {
+  display: block;
+  margin-bottom: 0.5em;
+  font-weight: 600;
+  color: #ccc;
+}
+
+.eb-form-group input[type="text"] {
+  width: 100%;
+  padding: 0.75em;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: #fff;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.eb-form-group input[type="text"]:focus {
+  outline: none;
+  border-color: #c80000;
+}
+
+.eb-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.eb-radio-option {
+  display: flex;
+  align-items: flex-start;
+  padding: 1em;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.eb-radio-option:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.eb-radio-option.selected {
+  border-color: #c80000;
+  background: rgba(200, 0, 0, 0.1);
+}
+
+.eb-radio-option input[type="radio"] {
+  margin-top: 0.25em;
+  margin-right: 1em;
+  accent-color: #c80000;
+}
+
+.eb-radio-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.eb-radio-title {
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0.25em;
+}
+
+.eb-radio-desc {
+  font-size: 0.85rem;
+  color: #999;
+}
+
+.eb-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1em;
+  margin-top: 2em;
+}
+
+.eb-btn-cancel {
+  background: transparent;
+  color: #ccc;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.5em 1.25em;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.eb-btn-cancel:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.eb-btn-submit {
+  background: #c80000;
+  color: #fff;
+  border: none;
+  padding: 0.5em 1.5em;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.eb-btn-submit:hover:not(:disabled) {
+  background: #e60000;
+}
+
+.eb-btn-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -32,14 +32,11 @@
   text-align: center;
 }
 
-.logo-placeholder {
-  font-family: var(--font-heading);
-  font-size: 2em;
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-  padding: 0.5em;
-  display: inline-block;
-  background-color: var(--bg-box);
+.site-logo {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.8)) drop-shadow(0 0 1px rgba(255, 255, 255, 1));
 }
 
 .sidebar-portlet {
@@ -88,12 +85,17 @@
 
 .content-area {
   flex: 1;
-  padding: 1.5em;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5em 1.5em 0 1.5em;
   background-color: var(--bg-content);
   border-left: 1px solid var(--border-color);
   border-top: 1px solid var(--border-color);
+  min-height: calc(100vh - 50px); /* rough estimate of top bar height */
 }
 
 .content-inner {
   max-width: var(--content-max-width);
+  flex: 1;
+  padding-bottom: 2em;
 }

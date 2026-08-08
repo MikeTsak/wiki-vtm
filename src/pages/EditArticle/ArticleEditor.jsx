@@ -3,6 +3,7 @@ import { useParams, useNavigate, useLocation, useSearchParams } from 'react-rout
 import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import '@toast-ui/editor/dist/theme/toastui-editor-dark.css';
+import api from '../../utils/api';
 import './ArticleEditor.css';
 
 const ArticleEditor = () => {
@@ -26,12 +27,10 @@ const ArticleEditor = () => {
       // Functional mock fetch for demonstration
       const fetchArticle = async () => {
         try {
-          const res = await fetch(`/api/wiki/articles/${slug}`);
-          if (res.ok) {
-            const data = await res.json();
-            setTitle(data.title);
-            editorRef.current.getInstance().setMarkdown(data.content);
-          }
+          const res = await api.get(`/api/wiki/articles/${slug}`);
+          const data = res.data;
+          setTitle(data.article.title);
+          editorRef.current.getInstance().setMarkdown(data.article.content);
         } catch (err) {
           console.error("Failed to fetch article", err);
         }
@@ -52,18 +51,8 @@ const ArticleEditor = () => {
       // 'image' is standard for typical multer/image handlers
       formData.append('image', blob, blob.name || 'uploaded_image.png');
 
-      const response = await fetch('/api/wiki/upload-image', {
-        method: 'POST',
-        body: formData
-      });
-
-      if (!response.ok) {
-        throw new Error('Image upload failed on the server.');
-      }
-
-      const data = await response.json();
-      // The backend should return the public URL of the uploaded image
-      const imageUrl = data.url; 
+      const response = await api.post('/api/wiki/upload-image', formData);
+      const imageUrl = response.data.url; 
       
       // Insert the image into the editor via the callback
       callback(imageUrl, blob.name || 'Image');
@@ -99,19 +88,10 @@ const ArticleEditor = () => {
       console.log(`[STATE LOG] Triggering Save...`, payload);
 
       const endpoint = slug ? `/api/wiki/articles/${slug}` : '/api/wiki/articles';
-      const method = slug ? 'PUT' : 'POST';
 
-      const res = await fetch(endpoint, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
+      const res = await (slug ? api.put(endpoint, payload) : api.post(endpoint, payload));
       
-      if (!res.ok) {
-        throw new Error(`Failed to save article as ${status}.`);
-      }
-      
-      const responseData = await res.json();
+      const responseData = res.data;
       setSuccess(`Article successfully saved as ${status}!`);
       
       // If it was a new creation and we published, redirect to viewer
