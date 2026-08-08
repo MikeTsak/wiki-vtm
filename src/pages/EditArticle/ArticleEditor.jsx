@@ -12,6 +12,56 @@ const ArticleEditor = () => {
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const editorRef = useRef(null);
+
+  const customToolbarItems = React.useMemo(() => {
+    const button = document.createElement('button');
+    button.className = 'toastui-editor-toolbar-icons';
+    button.style.backgroundImage = 'none';
+    button.style.margin = '0';
+    button.style.fontSize = '12px';
+    button.style.fontWeight = 'bold';
+    button.style.width = 'auto';
+    button.style.padding = '0 5px';
+    button.innerHTML = 'IBX';
+    button.title = 'Insert Infobox';
+    button.addEventListener('click', () => {
+      if (editorRef.current) {
+        const editorInstance = editorRef.current.getInstance();
+        const boilerplate = `
+<aside class="infobox">
+  <div class="infobox-title">Article Title</div>
+  <img src="https://via.placeholder.com/250" class="infobox-image" alt="Image description" />
+  <div class="infobox-caption">Optional caption</div>
+  <div class="infobox-content">
+    <table>
+      <tbody>
+        <tr><th>Category 1</th><td>Value 1</td></tr>
+        <tr><th>Category 2</th><td>Value 2</td></tr>
+      </tbody>
+    </table>
+  </div>
+</aside>
+`;
+        editorInstance.insertText(boilerplate);
+      }
+    });
+    
+    return [
+      ['heading', 'bold', 'italic', 'strike'],
+      ['hr', 'quote'],
+      ['ul', 'ol', 'task', 'indent', 'outdent'],
+      ['table', 'image', 'link'],
+      ['code', 'codeblock'],
+      [
+        {
+          el: button,
+          command: 'insertInfobox',
+          tooltip: 'Insert Infobox'
+        }
+      ]
+    ];
+  }, []);
+
   
   const initialTitle = searchParams.get('title') || '';
   const importedContent = location.state?.importedContent || 'Start writing lore here...';
@@ -131,6 +181,7 @@ const ArticleEditor = () => {
           initialEditType="markdown"
           useCommandShortcut={true}
           theme="dark"
+          toolbarItems={customToolbarItems}
           hooks={{
             addImageBlobHook: handleImageUpload
           }}

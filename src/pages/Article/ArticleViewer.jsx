@@ -89,16 +89,6 @@ const ArticleViewer = ({ defaultSlug }) => {
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeRaw]}
-            components={{
-              a: ({ node, ...props }) => {
-                // If it's an internal link starting with /
-                if (props.href && props.href.startsWith('/')) {
-                  return <Link to={props.href}>{props.children}</Link>;
-                }
-                // Otherwise normal external link
-                return <a target="_blank" rel="noopener noreferrer" {...props}>{props.children}</a>;
-              }
-            }}
           >
             {processMarkdown(article.content)}
           </ReactMarkdown>

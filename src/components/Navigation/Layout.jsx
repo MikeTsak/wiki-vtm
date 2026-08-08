@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './Layout.css';
-import MeiliSearchBox from '../Search/MeiliSearchBox';
+import SearchBox from '../Search/SearchBox';
 import Footer from './Footer';
 
 const Layout = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   // Example auth state - should come from context in a real app
   const isAuthenticated = false;
   const isAdmin = false; // Placeholder
@@ -14,6 +15,9 @@ const Layout = ({ children }) => {
   return (
     <div className="layout-container">
       <div className="top-personal-tools">
+        <button className="mobile-menu-btn" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+          ☰
+        </button>
         <ul>
           {isAuthenticated ? (
             <>
@@ -30,7 +34,7 @@ const Layout = ({ children }) => {
       </div>
 
       <div className="wiki-wrapper">
-        <aside className="sidebar">
+        <aside className={`sidebar ${isMobileMenuOpen ? 'open' : ''}`}>
           <div className="sidebar-logo">
             <Link to="/">
               <img src="/erebus-wiki-logo.png" alt="Erebus Wiki" className="site-logo" />
@@ -54,10 +58,14 @@ const Layout = ({ children }) => {
           <div className="sidebar-portlet">
             <h3>Search</h3>
             <div className="portlet-body">
-              <MeiliSearchBox />
+              <SearchBox />
             </div>
           </div>
         </aside>
+
+        {isMobileMenuOpen && (
+          <div className="mobile-overlay" onClick={() => setIsMobileMenuOpen(false)}></div>
+        )}
 
         <main className="content-area">
           <div className="content-inner">

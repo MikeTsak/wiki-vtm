@@ -9,7 +9,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@meilisearch/instant-meilisearch": "^0.31.3",
     "@toast-ui/react-editor": "^3.2.3",
     "@xyflow/react": "^12.11.2",
     "axios": "^1.19.0",
@@ -17,7 +16,6 @@
     "meilisearch": "^0.37.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-instantsearch": "^7.42.0",
     "react-markdown": "^10.1.0",
     "react-router-dom": "^6.22.3",
     "rehype-raw": "^7.0.0",

@@ -139,3 +139,72 @@
   border-top: 1px dashed var(--border-color);
   margin-top: 0.5em;
 }
+
+/* Wikipedia-style Infobox */
+.infobox {
+  float: right;
+  clear: right;
+  width: 300px;
+  margin: 0.5em 0 1em 1em;
+  padding: 0.5em;
+  background-color: var(--bg-box);
+  border: 1px solid var(--border-color);
+  font-size: 0.9em;
+  color: var(--text-primary);
+  box-sizing: border-box;
+}
+
+.infobox-title {
+  text-align: center;
+  font-family: var(--font-heading);
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-bottom: 0.5em;
+  background-color: var(--bg-header);
+  padding: 5px;
+  border: 1px solid var(--border-color);
+}
+
+.infobox-image {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto 0.5em auto;
+  border: 1px solid var(--border-color);
+}
+
+.infobox-caption {
+  text-align: center;
+  font-size: 0.9em;
+  padding: 3px;
+  margin-bottom: 0.5em;
+  color: var(--text-secondary);
+}
+
+.infobox-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+}
+
+.infobox-content th,
+.infobox-content td {
+  padding: 4px;
+  border-bottom: 1px solid var(--border-color);
+  border-left: none;
+  border-right: none;
+}
+
+.infobox-content th {
+  text-align: left;
+  background-color: var(--bg-header);
+  width: 40%;
+}
+
+@media (max-width: 600px) {
+  .infobox {
+    float: none;
+    width: 100%;
+    margin: 1em 0;
+  }
+}
