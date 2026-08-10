@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.css';
 
 import { AuthProvider } from './context/AuthContext';
+import AnalyticsProvider from './components/Common/AnalyticsProvider';
 import Layout from './components/Navigation/Layout';
 import ArticleEditor from './pages/EditArticle/ArticleEditor';
 import ArticleViewer from './pages/Article/ArticleViewer';
@@ -27,7 +28,8 @@ function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <Layout>
+        <AnalyticsProvider>
+          <Layout>
           <Routes>
             {/* Main page defaults to 'Main_Page' slug */}
             <Route element={<ArticleContainer />}>
@@ -46,6 +48,7 @@ function App() {
             <Route path="/import" element={<WikipediaImport />} />
           </Routes>
         </Layout>
+        </AnalyticsProvider>
       </BrowserRouter>
     </AuthProvider>
   );
