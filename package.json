@@ -6,7 +6,12 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "vite build && node scripts/deploy.mjs",
+    "deploy:nobuild": "node scripts/deploy.mjs",
+    "deploy:dry": "node scripts/deploy.mjs --dry-run",
+    "deploy:force": "vite build && node scripts/deploy.mjs --force",
+    "deploy:rollback": "node scripts/deploy.mjs --rollback"
   },
   "dependencies": {
     "@toast-ui/react-editor": "^3.2.3",
@@ -26,6 +31,8 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",
+    "basic-ftp": "^5.0.5",
+    "cli-progress": "^3.12.0",
     "vite": "^5.2.0"
   }
 }
