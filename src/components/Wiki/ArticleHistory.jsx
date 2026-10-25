@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
+import { processWikiMarkdown } from '../../utils/wikiMarkdown';
 import './ArticleHistory.css';
 
 const ArticleHistory = ({ slug, onRevert }) => {
@@ -77,7 +78,7 @@ const ArticleHistory = ({ slug, onRevert }) => {
           </div>
           <div className="markdown-body history-markdown">
             <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
-              {viewingVersion.content}
+              {processWikiMarkdown(viewingVersion.content)}
             </ReactMarkdown>
           </div>
         </div>

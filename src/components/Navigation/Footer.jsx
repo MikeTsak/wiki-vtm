@@ -35,12 +35,12 @@ export default function Footer() {
     <footer id="wiki-footer" className="wiki-footer">
       <ul id="footer-info">
         <li id="footer-info-brand">
-          Erebus Wiki by <a href="https://miketsak.gr" target="_blank" rel="noreferrer">MikeTsak</a> for Athens Through Time, powered by <a href="https://cerebralproductions.eu/" target="_blank" rel="noreferrer">Cerebral Prod.</a>
+          This software is owned by <a href="https://agileadvisors.gr/" target="_blank" rel="noreferrer">Agile Advisors</a>.
         </li>
         <li id="footer-info-legal">
           Portions of the materials are copyrights and trademarks of Paradox Interactive AB, used with permission. All rights reserved. Visit <a href="https://www.worldofdarkness.com" target="_blank" rel="noreferrer">worldofdarkness.com</a>. 
           This is <b>unofficial fan content</b>, not approved or endorsed by Paradox Interactive. 
-          Vampire: The Masquerade and World of Darkness are trademarks of Paradox Interactive AB. This software is owned by <a href="https://agileadvisors.gr/" target="_blank" rel="noreferrer">Agile Advisors</a>.
+          Vampire: The Masquerade and World of Darkness are trademarks of Paradox Interactive AB.
         </li>
       </ul>
 

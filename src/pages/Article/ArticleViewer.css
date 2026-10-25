@@ -589,3 +589,139 @@
     margin: 0 0 1em 0;
   }
 }
+
+/* ── Clan Emoji & Badges ───────────────────────────────────── */
+.wiki-clan-emoji {
+  width: 20px;
+  height: 20px;
+  vertical-align: -3px;
+  display: inline-block;
+  margin: 0 4px 0 2px;
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.25));
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.wiki-clan-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  vertical-align: baseline;
+  line-height: 1;
+}
+
+.wiki-clan-link:hover .wiki-clan-emoji {
+  transform: scale(1.2);
+  filter: drop-shadow(0 0 6px rgba(231, 76, 60, 0.6));
+}
+
+.wiki-clan-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  padding: 2px 8px;
+  margin: 0 3px;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9em;
+  transition: all 0.2s ease;
+  vertical-align: middle;
+}
+
+.wiki-clan-badge:hover {
+  background: rgba(138, 15, 26, 0.25);
+  border-color: #8a0f1a;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.wiki-clan-badge .wiki-clan-emoji {
+  margin: 0;
+  vertical-align: middle;
+}
+
+/* ── Not Found Card ────────────────────────────────────────── */
+.not-found-box {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  padding: 24px;
+  margin: 20px 0;
+}
+
+.btn-create-article {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: 8px 18px;
+  border-radius: 4px;
+  font-weight: 600;
+  text-decoration: none;
+  font-family: var(--font-heading);
+  transition: all 0.2s ease;
+}
+
+.btn-create-article:hover {
+  background-color: #a31220;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* Adsterra Responsive Layout and Ad Banners */
+.article-page-layout {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+}
+
+.article-gutter-ad {
+  width: 160px;
+  flex-shrink: 0;
+  display: block;
+}
+
+.article-gutter-sticky {
+  position: sticky;
+  top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.article-main-column {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+}
+
+.article-mobile-ad {
+  display: none;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.article-mobile-top {
+  margin-bottom: 16px;
+}
+
+.article-mobile-bottom {
+  margin-top: 28px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+}
+
+@media (max-width: 1280px) {
+  .article-gutter-ad {
+    display: none;
+  }
+
+  .article-mobile-ad {
+    display: flex;
+  }
+}
