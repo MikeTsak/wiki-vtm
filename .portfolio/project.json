@@ -1,0 +1,34 @@
+{
+  "title": "Erebus Wiki",
+  "tagline": "The lore and chronicle encyclopedia for the Athens Through Time Vampire role play universe.",
+  "description": "A specialized encyclopedia and knowledge base for Athens Through Time players and Storytellers. Articles document Kindred histories, clan lineages, Elysium locations, and city politics with full revision tracking and rollback. Features include an interactive force directed lore relationship graph with React Flow, historical timelines, collaborative corkboards, and private player journals.",
+  "type": "Web app",
+  "status": "live",
+  "year": 2026,
+  "role": "Solo developer",
+  "tags": [
+    "React",
+    "Vite",
+    "React Flow",
+    "Markdown",
+    "JavaScript",
+    "HTML"
+  ],
+  "highlights": [
+    "Markdown article editor with version history, rollback, and infoboxes",
+    "Interactive force directed lore graph powered by React Flow",
+    "Chronicle history timeline and collaborative corkboard pinboards",
+    "Full text search across articles and personal player journals"
+  ],
+  "links": [
+    {
+      "label": "Open the wiki",
+      "url": "https://wiki.attlarp.gr"
+    },
+    {
+      "label": "Visit chronicle",
+      "url": "https://attlarp.gr"
+    }
+  ],
+  "cover": "cover.webp"
+}
